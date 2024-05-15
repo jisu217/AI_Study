@@ -1,112 +1,76 @@
 1. 정답 로직(동작 과정) 작성
 
-늑대, 염소, 양배추 문제
+1. 사람이 염소를 먼저 오른쪽으로 건넌다.
+2. 사람이 다시 왼쪽으로 돌아간다.
+3. 사람이 늑대를 오른쪽으로 건넌다.
+4. 사람이 염소를 왼쪽으로 다시 건넌다.
+5. 사람이 양배추를 오른쪽으로 건넌다.
+6. 사람이 다시 왼쪽으로 돌아간다.
+7. 사람이 염소를 오른쪽으로 건넌다.
 
-- 사람이 늑대, 염소, 양배추와 강의 오른쪽에 있음
-- 사람은 이 중 하나만 선택, 강의 왼쪽/오른쪽으로 이동
-- 사람 혼자서 건널 수도 있음
-- 늑대와 염소만 남겨 두면 늑대가 염소를 잡아먹음
-- 염소와 양배추만 남겨 두면 염소가 양배추를 먹음
-염소나 양배추가 먹히지 않고 모두 강을 건너는 방법의 문제 풀이를 조건, 과정, 결과 출력을 상세하게 출력해. 단계별로 생각해 봅시다.
-
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 2. ChatGPT를 활용하여 정답 로직에 맞는 코드를 작성하시오. (단, 3.5버전 모델을 사용해야하며 조건, 과정, 결과 출력을 상세하게 출력 되도록 한다.)
 
-class State:
-    def __init__(self, wolf, goat, cabbage, human):
-        self.wolf = wolf
-        self.goat = goat
-        self.cabbage = cabbage
-        self.human = human
+def cross_river():
+    # 초기 상태 설정
+    left_side = ["person", "wolf", "goat", "cabbage"]
+    right_side = []
 
-    def is_valid(self):
-        # 염소가 늑대에게 잡아먹히거나, 양배추가 염소에게 먹히는 경우를 확인
-        if (self.goat == self.wolf and self.human != self.wolf) or \
-           (self.goat == self.cabbage and self.human != self.goat):
+    def is_safe(side):
+        # 안전한 상태인지 확인하는 함수
+        if ("goat" in side and "wolf" in side) or ("goat" in side and "cabbage" in side):
             return False
         return True
 
-    def is_goal(self):
-        # 모든 요소가 강의 왼편에 있는 경우
-        return self.wolf == 'left' and self.goat == 'left' and self.cabbage == 'left' and self.human == 'left'
+    def print_status():
+        # 현재 상태 출력
+        print("Left side:", left_side)
+        print("Right side:", right_side)
+        print("")
 
-    def __str__(self):
-        return f'Wolf: {self.wolf}, Goat: {self.goat}, Cabbage: {self.cabbage}, Human: {self.human}'
+    # Step 1: Cross the river with the goat
+    # 염소를 강을 건너는 과정
+    right_side.append(left_side.pop(left_side.index("goat")))
+    print("Step 1: Cross the river with the goat")
+    print_status()
 
-def dfs(current_state, visited):
-    if current_state.is_goal():
-        return [current_state]
-    
-    visited.add(str(current_state))
+    # Step 2: Return alone
+    # 혼자 다시 돌아오는 과정
+    left_side.append(right_side.pop(right_side.index("person")))
+    print("Step 2: Return alone")
+    print_status()
 
-    # 가능한 다음 상태들을 탐색
-    next_states = []
-    for move in possible_moves:
-        new_state = State(current_state.wolf, current_state.goat, current_state.cabbage, current_state.human)
-        move(new_state)
-        if str(new_state) not in visited and new_state.is_valid():
-            next_states.append(new_state)
+    # Step 3: Cross the river with the wolf
+    # 늑대를 강을 건너는 과정
+    right_side.append(left_side.pop(left_side.index("wolf")))
+    print("Step 3: Cross the river with the wolf")
+    print_status()
 
-    # 가능한 다음 상태들에 대해 DFS 수행
-    for next_state in next_states:
-        result = dfs(next_state, visited)
-        if result:
-            return [current_state] + result
+    # Step 4: Cross back with the goat
+    # 염소를 다시 돌려오는 과정
+    left_side.append(right_side.pop(right_side.index("goat")))
+    print("Step 4: Cross back with the goat")
+    print_status()
 
-    return None
+    # Step 5: Cross the river with the cabbage
+    # 양배추를 강을 건너는 과정
+    right_side.append(left_side.pop(left_side.index("cabbage")))
+    print("Step 5: Cross the river with the cabbage")
+    print_status()
 
-def move_wolf(state):
-    if state.human == state.wolf:
-        state.wolf = 'right'
-    else:
-        state.wolf = 'left'
-    state.human = state.wolf
+    # Step 6: Return alone
+    # 혼자 다시 돌아오는 과정
+    left_side.append(right_side.pop(right_side.index("person")))
+    print("Step 6: Return alone")
+    print_status()
 
-def move_goat(state):
-    if state.human == state.goat:
-        state.goat = 'right'
-    else:
-        state.goat = 'left'
-    state.human = state.goat
+    # Step 7: Cross the river with the goat
+    # 염소를 강을 건너는 과정
+    right_side.append(left_side.pop(left_side.index("goat")))
+    print("Step 7: Cross the river with the goat")
+    print_status()
 
-def move_cabbage(state):
-    if state.human == state.cabbage:
-        state.cabbage = 'right'
-    else:
-        state.cabbage = 'left'
-    state.human = state.cabbage
+    print("All elements crossed the river safely!")
 
-def move_human(state):
-    if state.human == 'left':
-        state.human = 'right'
-    else:
-        state.human = 'left'
-
-# 가능한 이동 조합 정의
-possible_moves = [move_wolf, move_goat, move_cabbage, move_human]
-
-# 초기 상태 설정
-initial_state = State('right', 'right', 'right', 'right')
-
-# DFS 수행
-visited = set()
-solution = dfs(initial_state, visited)
-
-if solution:
-    print("Solution found:")
-    for i, state in enumerate(solution):
-        print(f"Step {i}: {state}")
-else:
-    print("No solution found.")
-
-결과: 
-Solution found:
-Step 0: Wolf: right, Goat: right, Cabbage: right, Human: right
-Step 1: Wolf: left, Goat: right, Cabbage: right, Human: left
-Step 2: Wolf: right, Goat: right, Cabbage: right, Human: right
-Step 3: Wolf: left, Goat: left, Cabbage: right, Human: left
-Step 4: Wolf: right, Goat: left, Cabbage: right, Human: right
-Step 5: Wolf: left, Goat: left, Cabbage: left, Human: left
-Step 6: Wolf: right, Goat: left, Cabbage: left, Human: right
-Step 7: Wolf: left, Goat: left, Cabbage: left, Human: left
+cross_river()
