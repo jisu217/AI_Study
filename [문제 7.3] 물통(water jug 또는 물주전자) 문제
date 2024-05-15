@@ -1,0 +1,66 @@
+1. 정답 로직(동작 과정) 작성
+
+1. 3리터짜리 (물통)에 물을 가득 채우기
+2. 그것을 4리터짜리에 모두 붓기
+3. 비어 있는 3리터짜리에다 다시 물을 가득 채우기
+4. 3리터짜리의 물을 4리터짜리가 가득 찰 때까지 붓기
+5. 4리터짜리의 물을 모두 비우기
+6. 3리터짜리의 물을 4리터짜리에 모두 붓기. 완료!
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2. ChatGPT를 활용하여 정답 로직에 맞는 코드를 작성하시오. (단, 3.5버전 모델을 사용해야하며 조건, 과정, 결과 출력을 상세하게 출력 되도록 한다.)
+
+def water_jug_problem():
+    # 초기 물통 상태 설정
+    jug_3 = 0  # 3리터짜리 물통
+    jug_4 = 0  # 4리터짜리 물통
+
+    def print_status():
+        # 현재 물통 상태 출력
+        print("Jug 3:", jug_3, "liters")
+        print("Jug 4:", jug_4, "liters")
+        print("")
+
+    # Step 1: Fill the 3-liter jug
+    # 3리터짜리 물통 가득 채우기
+    jug_3 = 3
+    print("Step 1: Fill the 3-liter jug")
+    print_status()
+
+    # Step 2: Pour all the water into the 4-liter jug
+    # 4리터짜리 물통으로 모두 붓기
+    jug_4 = jug_3
+    jug_3 = 0
+    print("Step 2: Pour all the water into the 4-liter jug")
+    print_status()
+
+    # Step 3: Fill the 3-liter jug again
+    # 3리터짜리 물통 다시 가득 채우기
+    jug_3 = 3
+    print("Step 3: Fill the 3-liter jug again")
+    print_status()
+
+    # Step 4: Pour water from the 3-liter jug to fill the 4-liter jug
+    # 3리터짜리 물통으로 4리터짜리 물통 가득 채우기
+    jug_4 = jug_3
+    jug_3 = 0
+    print("Step 4: Pour water from the 3-liter jug to fill the 4-liter jug")
+    print_status()
+
+    # Step 5: Empty the 4-liter jug
+    # 4리터짜리 물통 비우기
+    jug_4 = 0
+    print("Step 5: Empty the 4-liter jug")
+    print_status()
+
+    # Step 6: Pour water from the 3-liter jug to fill the 4-liter jug
+    # 3리터짜리 물통으로 4리터짜리 물통 가득 채우기
+    jug_4 = jug_3
+    jug_3 = 0
+    print("Step 6: Pour water from the 3-liter jug to fill the 4-liter jug")
+    print_status()
+
+    print("The water jug problem is solved!")
+
+water_jug_problem()
